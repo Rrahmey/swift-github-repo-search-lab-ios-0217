@@ -27,6 +27,7 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
+
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
@@ -65,3 +66,4 @@ fastlane/screenshots
 fastlane/test_output
 
 .DS_Store
+Secrets.swift
