@@ -59,8 +59,6 @@ class ReposTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "repoCell", for: indexPath)
 
         let repository:GithubRepository = self.store.repositories[indexPath.row]
-        print(repository.fullName)
-        print(repository.htmlURL)
         
         cell.textLabel?.text = repository.fullName
 
@@ -69,7 +67,6 @@ class ReposTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCell = self.store.repositories[indexPath.row]
-        print(selectedCell)
         self.store.toggleStarStatus(for: selectedCell) { (wasStarred) in
             if wasStarred == true {
                 let alertController = UIAlertController(title: "Alert", message: "You have succesfully starred the repo", preferredStyle: UIAlertControllerStyle.alert )

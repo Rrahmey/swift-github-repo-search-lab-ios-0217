@@ -16,7 +16,7 @@ class ReposDataStore {
     var repositories:[GithubRepository] = []
     
     func getRepositories(with completion: @escaping () -> ()) {
-        GithubAPIClient.getRepositories { (reposArray) in
+        GithubAPIClient.getRepositiories{ (reposArray) in
             self.repositories.removeAll()
             for dictionary in reposArray {
                 guard let repoDictionary = dictionary as? [String : Any] else { fatalError("Object in reposArray is of non-dictionary type") }
@@ -32,8 +32,6 @@ class ReposDataStore {
         self.repositories.removeAll()
         GithubAPIClient.searchForRepo(search: name) { (JSON) in
             guard var array = JSON["items"] as? NSArray else {return}
-            print(array)
-            print("THE ARRAY IS ")
             for eachArray in array {
                 guard var eachArray = eachArray as? [String:Any] else {return}
                 let repository = GithubRepository(dictionary: eachArray)
@@ -52,24 +50,32 @@ class ReposDataStore {
     func toggleStarStatus(for repo: GithubRepository, starred: @escaping (Bool) -> () ) {
         GithubAPIClient.checkIfRepositoryIsStarred(repo.fullName) { (isStarred) in
             if isStarred == true {
-                GithubAPIClient.unstarRepository(named: repo.fullName, completion:  {
-                    starred(false)
-                    print("repo was unstarred")
-                })
+                GithubAPIClient.unstarRepository(named: repo.fullName, completion: { worked in
+                    if worked {
+                        starred(false)
+                    } else {
+                        print("shit")
+                    }
+                }
+                )
             }
             else {
-                GithubAPIClient.starRepository(named: repo.fullName, completion: {
-                    starred(true)
-                    print("repo was starred")
-                })
+                GithubAPIClient.starRepository(named: repo.fullName, completion: { worked in
+                    if worked {
+                        starred(true)
+                    } else {
+                        print("oh no")
+                    }
+                }
+                )
             }
         }
     }
 }
 
-        
-        
-      
-            
-            
+
+
+
+
+
 
